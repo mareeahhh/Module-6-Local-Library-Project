@@ -6,18 +6,34 @@ function getTotalAccountsCount(accounts) {
   return accounts.length;
 }
 
+// function getBooksBorrowedCount(books) {
+//   let totalBooksOut = 0;
+//   books.forEach(bookObj => {
+//     const {borrows} = bookObj;
+//     let isBookOutNow = borrows.some(borrowObj =>{
+//       return borrowObj.returned == false;
+//     })
+//     if (isBookOutNow === true){
+//       totalBooksOut ++;
+//     }
+//   })
+//   return totalBooksOut;
+// }
+
+
 function getBooksBorrowedCount(books) {
-  let totalBooksOut = 0;
-  books.forEach(bookObj => {
+  const total= books.reduce((accumulator, bookObj) => {
     const {borrows} = bookObj;
-    let isBookOutNow = borrows.some(borrowObj =>{
-      return borrowObj.returned == false;
+    let isBookOutNow = borrows.some((borrowObj) => {
+      return borrowObj.returned === false;
     })
-    if (isBookOutNow === true){
-      totalBooksOut ++;
+    if (isBookOutNow === true) {
+      accumulator ++;
     }
-  })
-  return totalBooksOut;
+    //reduce callback fn needs to return the accumulator
+    return accumulator
+  },0)
+  return total;
 }
 
 function getMostCommonGenres(books) {
